@@ -1,0 +1,83 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="container" type="com.example.genericadapter.model.State"/>
+    </data>
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginVertical="7dp"
+            android:layout_marginHorizontal="5dp"
+            android:id="@+id/parent_ll"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="#FFFFFF"
+            app:cardCornerRadius="12dp"
+
+            android:textColor="#FFFFFF">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/VC_guide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintGuide_percent="0.5"
+                    android:orientation="horizontal">
+
+                </androidx.constraintlayout.widget.Guideline>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                   app:layout_constraintBottom_toTopOf="@+id/VC_guide"
+                    app:layout_constraintRight_toRightOf="@id/vc_2"
+                    app:layout_constraintLeft_toLeftOf="@id/vc_1"
+                    android:src="@drawable/state_logo">
+
+                </ImageView>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/vc_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintGuide_percent=".15"
+                    android:orientation="vertical">
+
+                </androidx.constraintlayout.widget.Guideline>
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/vc_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintGuide_percent=".8"
+                    android:orientation="vertical">
+
+                </androidx.constraintlayout.widget.Guideline>
+                <ImageView
+                    android:layout_margin="5dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:id="@+id/selection_logo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/state_menu_unselected" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#4B4B4B"
+                    app:layout_constraintLeft_toLeftOf="@+id/vc_1"
+                    app:layout_constraintRight_toRightOf="@id/vc_2"
+                    app:layout_constraintTop_toBottomOf="@+id/VC_guide"
+                    android:text="हिमाचल प्रदेश पंजाब
+
+
+">
+
+                </TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+</layout>
