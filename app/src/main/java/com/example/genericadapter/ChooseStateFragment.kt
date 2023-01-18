@@ -18,11 +18,13 @@ import com.example.genericadapter.databinding.FragmentChooseLayoutBinding
 import com.example.genericadapter.databinding.FragmentChooseStateBinding
 import com.example.genericadapter.model.Language
 import com.example.genericadapter.model.State
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ChooseStateFragment : BaseFragment<FragmentChooseStateBinding>(R.layout.fragment_choose_state) {
     lateinit var genericAdapter:CommonRecyclerViewAdapter<State>
     private lateinit var activity :MainActivity
+    private val noteDatabase by lazy { NoteDatabase.getDatabase(activity).languageDatabase()}
     val viewmodel:PreferenceViewModel by activityViewModels<PreferenceViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,12 +33,28 @@ class ChooseStateFragment : BaseFragment<FragmentChooseStateBinding>(R.layout.fr
     }
 
     override fun observeData() {
-        viewmodel.statePreferenceList.observe(viewLifecycleOwner, Observer { _preferenceList ->
+        lifecycleScope.launch(Dispatchers.IO) {
+            var list=  noteDatabase.getAllLanguageSimple(false).map {
+                State(it.title,it.isSelected)
+            }
+            genericAdapter.addItems(list)
+        }
+
+      /*  noteDatabase.getAllLanguage().observe(viewLifecycleOwner, Observer {
+            it?.let {
+                    preferenceList->
+              var list=  preferenceList.map {
+                    State(it.title,it.isSelected)
+                }
+
+            }
+        })*/
+       /* viewmodel.statePreferenceList.observe(viewLifecycleOwner, Observer { _preferenceList ->
             _preferenceList?.let {
                     preferenceList->
                 genericAdapter.addItems(preferenceList)
             }
-        })
+        })*/
     }
 
     override fun observeEvents() {

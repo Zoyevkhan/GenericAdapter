@@ -24,6 +24,7 @@ class ChooselanguageFragment : BaseFragment<FragmentChooseLayoutBinding>(R.layou
     private var selectedLanguageList:MutableList<Language> = mutableListOf()
     val viewmodel:PreferenceViewModel by activityViewModels<PreferenceViewModel>()
 
+
     override fun observeData() {
         viewmodel.languagePreferenceList.observe(viewLifecycleOwner, Observer { preferenceList ->
             preferenceList?.let {
@@ -77,6 +78,7 @@ class ChooselanguageFragment : BaseFragment<FragmentChooseLayoutBinding>(R.layou
     }
     fun handleCickEvent(){
         binding.nextButton.setOnClickListener {
+            viewmodel.addIntoDB()
             activity.replaceFragment(
                 ChooseStateFragment(),
                 (requireView().parent as ViewGroup).id, true

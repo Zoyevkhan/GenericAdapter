@@ -10,8 +10,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.genericadapter.model.Category
 import com.example.genericadapter.model.Language
+import com.example.genericadapter.model.LanguageA
 import com.example.genericadapter.model.State
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -23,6 +25,7 @@ class PreferenceViewModel(
 
     lateinit var preferenceExceptionHandler: CoroutineExceptionHandler
     var context:Context =application.applicationContext
+    private val noteDatabase by lazy { NoteDatabase.getDatabase(context).languageDatabase()}
 
     //UI event for Language Preference
     private val languagePrefUIEventChannel = Channel<UIEvent>(Channel.UNLIMITED)
@@ -55,7 +58,10 @@ init {
 }
 
     fun callPreferenceApi() {
-        viewModelScope.launch(preferenceExceptionHandler) {
+
+        _languagePreferenceList.value=getLang()
+
+       /* viewModelScope.launch(preferenceExceptionHandler) {
             sendLoadingStateToUIs(UIEvent.onLoading,UIEvent.onLoading,UIEvent.onLoading)
            var webservice=RetrofitFactory.getInstance(context)
 
@@ -69,9 +75,9 @@ init {
 
                             }else{
                                 //
-                                /*_categoryPreferenceList.value=getCate()
+                                *//*_categoryPreferenceList.value=getCate()
                                 _statePreferenceList.value=getState()
-                                _languagePreferenceList.value=getLang()*/
+                                _languagePreferenceList.value=getLang()*//*
                                 sendSameEvents(UIEvent.OnError(responseModel.message!!))
                             }
                         }?: kotlin.run {
@@ -85,32 +91,15 @@ init {
 
             }
 
-        }
+        }*/
 
     }
 
 
     private fun getLang()=listOf(
-        Language("English"),
-        Language("Marathi"),
-        Language("Bhojpuri"),
-        Language("Malyalam"),
-        Language("Tamil"),
-        Language("English"),
-        Language("Marathi"),
-        Language("Bhojpuri"),
-        Language("Malyalam"),
-        Language("Tamil"),Language(),
-        Language("English"),
-        Language("Marathi"),
-        Language("Bhojpuri"),
-        Language("Malyalam"),
-        Language("Tamil"),Language(),
-        Language("English"),
-        Language("Marathi"),
-        Language("Bhojpuri"),
-        Language("Malyalam"),
-        Language("Tamil"),
+        Language(title = "English"),
+        Language(title = "English"),
+
     ).toMutableList()
     private fun getState()= listOf<State>(
         State("ABC"),
@@ -168,7 +157,14 @@ init {
 
     override fun onCleared() {
         super.onCleared()
+
+
         // save user preference in local.
+    }
+    fun addIntoDB(){
+        viewModelScope.launch {
+            noteDatabase.insertAll(languagePreferenceList.value!!)
+        }
     }
 
 
